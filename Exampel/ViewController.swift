@@ -26,13 +26,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         var controllers = [UIViewController]()
         for i in 0..<10{
-            let controller = UIViewController()
+            let controller = DemoController()
             controller.title = titles[i]//"测试中哈哈哈\(i)"
             controller.view.backgroundColor = colors[i % 4]
             controllers.append(controller)
         }
         
-        let pageView = TLPageView(viewControllers: controllers, pageViewOptions: [.menuHeight(50),.menuItemMargin(15), .rightItem(rightItem)])
+        let pageView = TLPageView(viewControllers: controllers, pageViewOptions: [.menuHeight(50),.menuItemMargin(5), .rightItem(rightItem)])
         view.addSubview(pageView)
         pageView.frame = CGRect(x: 0, y: 88, width: view.frame.size.width, height: view.frame.size.height - 88)
     }

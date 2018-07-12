@@ -140,7 +140,7 @@ extension TLMenuView {
             if i == 0 {
                 x = configuration.menuItemMargin * 0.5
                 var lineFrame = bottomLine.frame
-                lineFrame.origin.x = x
+                lineFrame.origin.x = x + 5
                 lineFrame.size.width = w
                 bottomLine.frame = lineFrame
             } else {
@@ -148,7 +148,7 @@ extension TLMenuView {
                 x = preLabel.frame.maxX + configuration.menuItemMargin
             }
             
-            label.frame = CGRect(x: x, y: y, width: w, height: h)
+            label.frame = CGRect(x: x, y: y, width: w + 10, height: h)
         }
         scrollView.contentSize = CGSize(width: titleLabels.last!.frame.maxX + configuration.menuItemMargin * 0.5, height: 0)
     }
@@ -193,7 +193,7 @@ extension TLMenuView {
         // 调整bottomLine
         UIView.animate(withDuration: 0.25, animations: {
             var bottomLineFrame = self.bottomLine.frame
-            bottomLineFrame.size.width = targetLabel.frame.size.width
+            bottomLineFrame.size.width = targetLabel.frame.size.width - 10
             self.bottomLine.frame = bottomLineFrame
             
             var ct = self.bottomLine.center
@@ -206,18 +206,25 @@ extension TLMenuView {
     }
     
     private func adjustTitleLabel(targetIndex : Int) {
-        
-        if targetIndex == currentIndex { return }
-        
         // 1.取出Label
         let targetLabel = titleLabels[targetIndex]
         let sourceLabel = titleLabels[currentIndex]
+        
+        if targetIndex == currentIndex {
+            if targetIndex == 0 {
+                targetLabel.textColor = configuration.menuItemSelectedColor
+                targetLabel.currentScale = 1.03
+            }
+            return
+        }
+        
+        
         
         // 2.切换文字的颜色
         targetLabel.textColor = configuration.menuItemSelectedColor
         sourceLabel.textColor = configuration.menuItemColor
         sourceLabel.currentScale = 1.0
-        targetLabel.currentScale = 1.1
+        targetLabel.currentScale = 1.03
         
         // 调整bottomLine
         UIView.animate(withDuration: 0.25, animations: {

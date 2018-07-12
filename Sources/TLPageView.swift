@@ -134,6 +134,7 @@ extension TLPageView {
         
         menuView.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: configuration.menuHeight)
         collectionView.frame = CGRect(x: 0, y: configuration.menuHeight, width: self.frame.size.width, height: self.frame.size.height - configuration.menuHeight)
+        contentEndScroll()
     }
 }
 
