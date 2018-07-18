@@ -23,15 +23,13 @@ public class TLPageView: UIView {
     private var currentIndex: Int = 0
     private var startOffsetX : CGFloat = 0
     
+    private var cellIdentifierDic = [String : String]()
+    
     var titles: [String]?
     
     var childControllers: [UIViewController]? {
         willSet {
-            if let vcs = newValue {
-                let vc = vcs[currentIndex]
-                vc.view.frame = CGRect(x: 0, y: 0, width: collectionView.frame.size.width, height: collectionView.frame.size.height)
-                collectionView.reloadData()
-            }
+            collectionView.reloadData()
         }
     }
     
@@ -55,7 +53,7 @@ public class TLPageView: UIView {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor.white
-        collectionView.register(UINib(nibName: String(describing: TLCollectionViewCell.self), bundle: Bundle(for: TLPageView.self)), forCellWithReuseIdentifier: String(describing: TLCollectionViewCell.self))
+//        collectionView.register(UINib(nibName: String(describing: TLCollectionViewCell.self), bundle: Bundle(for: TLPageView.self)), forCellWithReuseIdentifier: String(describing: TLCollectionViewCell.self))
         collectionView.isPagingEnabled = true
         collectionView.scrollsToTop = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -89,6 +87,13 @@ public class TLPageView: UIView {
         titles = ts
         
         setupUI()
+    }
+    
+    public func replace(viewController: UIViewController, at index: Int) {
+        childControllers![index] = viewController
+        titles![index] = viewController.title ?? ""
+        collectionView.reloadData()
+        menuView.refresh(titles: titles)
     }
     
 }
@@ -150,7 +155,21 @@ extension TLPageView : UICollectionViewDataSource, UICollectionViewDelegateFlowL
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TLCollectionViewCell.self), for: indexPath) as! TLCollectionViewCell
+        let ipStr = String(format: "(%d,%d)", indexPath.section, indexPath.row)
+        var id = ""
+        if let identifier  = cellIdentifierDic[ipStr] {
+            id = identifier
+        } else {
+            let identifier = String(format: "TLCollectionViewCell%a", ipStr)
+            cellIdentifierDic[ipStr] = identifier
+            // 注册 Cell
+            collectionView.register(UINib(nibName: String(describing: TLCollectionViewCell.self), bundle: Bundle(for: TLPageView.self)), forCellWithReuseIdentifier: identifier)
+            id = identifier
+        }
+        
+        
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as! TLCollectionViewCell
         for subview in cell.contentView.subviews {
             subview.removeFromSuperview()
         }

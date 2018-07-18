@@ -10,7 +10,7 @@ import UIKit
 import TLPageView
 
 class ViewController: UIViewController {
-    
+    var pageView : TLPageView!
     var colors : [UIColor] = [UIColor.yellow,UIColor.red,UIColor.brown,UIColor.blue]
     var titles : [String] = ["不仅仅是喜欢", "歌在飞", "小情歌", "回忆总想哭", "遥远的歌", "双节棍", "叶子", "天空中最亮的星", "稻香", "花桥流水"]
     lazy var rightItem: UIButton = {
@@ -32,13 +32,18 @@ class ViewController: UIViewController {
             controllers.append(controller)
         }
         
-        let pageView = TLPageView(viewControllers: controllers, pageViewOptions: [.menuHeight(50),.menuItemMargin(5), .rightItem(rightItem)])
+        pageView = TLPageView(viewControllers: controllers, pageViewOptions: [.menuHeight(50),.menuItemMargin(5), .rightItem(rightItem)])
         view.addSubview(pageView)
         pageView.frame = CGRect(x: 0, y: 88, width: view.frame.size.width, height: view.frame.size.height - 88)
     }
 
     @objc private func btnClick() {
         print("More button clicked")
+        let vc = DemoController()
+        vc.title = "替换"
+        vc.view.backgroundColor = .black
+        
+        pageView.replace(viewController: vc, at: 1)
     }
 
 

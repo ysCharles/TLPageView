@@ -70,6 +70,42 @@ class TLMenuView: UIView {
         }
     }
     
+    func refresh(titles: [String]?) {
+        
+        self.titles = titles
+        setupTitleLabelsFrame()
+        
+        let sourceLabel = titleLabels[currentIndex]
+        sourceLabel.textColor = configuration.menuItemSelectedColor
+        sourceLabel.currentScale = 1.03
+        
+        var bottomLineFrame = self.bottomLine.frame
+        bottomLineFrame.size.width = sourceLabel.frame.size.width - 10
+        self.bottomLine.frame = bottomLineFrame
+        
+        var ct = self.bottomLine.center
+        ct.x = sourceLabel.center.x
+        self.bottomLine.center = ct
+        
+        // 4.调整位置
+        // 当前偏移量
+        var offsetX = sourceLabel.center.x - scrollView.frame.size.width * 0.5
+        if offsetX < 0 {
+            offsetX = 0
+        }
+        // 最大偏移量
+        var maxOffsetX = scrollView.contentSize.width - scrollView.frame.size.width
+        
+        if maxOffsetX < 0 {
+            maxOffsetX = 0
+        }
+        
+        if offsetX > maxOffsetX {
+            offsetX = maxOffsetX
+        }
+        scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
+    }
+    
     // MARK: -  初始化
     override init(frame: CGRect) {
         self.configuration = TLPageViewConfiguration()
@@ -107,6 +143,7 @@ extension TLMenuView {
         for label in titleLabels {
             label.removeFromSuperview()
         }
+        titleLabels.removeAll()
         
         if let ts = titles {
             for (index, title) in ts.enumerated() {
@@ -229,7 +266,7 @@ extension TLMenuView {
         // 调整bottomLine
         UIView.animate(withDuration: 0.25, animations: {
             var bottomLineFrame = self.bottomLine.frame
-            bottomLineFrame.size.width = targetLabel.frame.size.width
+            bottomLineFrame.size.width = targetLabel.frame.size.width - 10
             self.bottomLine.frame = bottomLineFrame
             
             var ct = self.bottomLine.center
