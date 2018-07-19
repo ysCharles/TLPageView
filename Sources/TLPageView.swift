@@ -19,19 +19,12 @@ public class TLPageView: UIView {
     var configuration  = TLPageViewConfiguration()
     
     // MARK: - 属性
-    private var oldIndex: Int = 0
-    private var currentIndex: Int = 0
-    private var startOffsetX : CGFloat = 0
+    var currentIndex: Int = 0
+    var pengdingViewController : UIViewController?
     
-    private var cellIdentifierDic = [String : String]()
+    var titles: [String] = []
     
-    var titles: [String]?
-    
-    var childControllers: [UIViewController]? {
-        willSet {
-            collectionView.reloadData()
-        }
-    }
+    var childControllers: [UIViewController] = []
     
     private lazy var menuView: TLMenuView = {
         let menuView = TLMenuView(configuration: configuration)
@@ -42,22 +35,11 @@ public class TLPageView: UIView {
         return menuView
     }()
     
-    // 使用 collectionView作为容器
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.scrollDirection = .horizontal
-        
-        let collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = UIColor.white
-//        collectionView.register(UINib(nibName: String(describing: TLCollectionViewCell.self), bundle: Bundle(for: TLPageView.self)), forCellWithReuseIdentifier: String(describing: TLCollectionViewCell.self))
-        collectionView.isPagingEnabled = true
-        collectionView.scrollsToTop = false
-        collectionView.showsHorizontalScrollIndicator = false
-        return collectionView
+    private lazy var pageViewController : UIPageViewController = {
+        let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey : 2])
+        pageVC.dataSource = self
+        pageVC.delegate = self
+        return pageVC
     }()
     
     
@@ -89,13 +71,46 @@ public class TLPageView: UIView {
         setupUI()
     }
     
+    
+    
+}
+
+// MARK: - 公开方法
+extension TLPageView {
+    /// 替换某个位置的控制器
+    ///
+    /// - Parameters:
+    ///   - viewController: new controller
+    ///   - index: position
     public func replace(viewController: UIViewController, at index: Int) {
-        childControllers![index] = viewController
-        titles![index] = viewController.title ?? ""
-        collectionView.reloadData()
+        if index > childControllers.count - 1 {
+            return
+        }
+        childControllers[index] = viewController
+        titles[index] = viewController.title ?? ""
         menuView.refresh(titles: titles)
+        
+        if index == currentIndex {
+            moveTo(index: index, animated: false)
+        }
     }
     
+    public func moveTo(index : Int, animated : Bool) {
+        if currentIndex == index {
+            pengdingViewController = childControllers[index]
+            pageViewController.setViewControllers([pengdingViewController!], direction: .forward, animated: false, completion: nil)
+            return
+        }
+        
+        if index < 0 || index > childControllers.count - 1{
+            return
+        }
+        
+        let direction :UIPageViewControllerNavigationDirection =  index > currentIndex ? .forward : .reverse
+        pengdingViewController = childControllers[index]
+        pageViewController.setViewControllers([pengdingViewController!], direction: direction, animated: animated, completion: nil)
+        currentIndex = index
+    }
 }
 
 
@@ -104,7 +119,7 @@ extension TLPageView {
     private func setupUI() {
         backgroundColor = UIColor.clear
         addSubview(menuView)
-        addSubview(collectionView)
+        addSubview(pageViewController.view)
         
         tlPageViewDelegate = menuView
     }
@@ -136,88 +151,41 @@ extension TLPageView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        
         menuView.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: configuration.menuHeight)
-        collectionView.frame = CGRect(x: 0, y: configuration.menuHeight, width: self.frame.size.width, height: self.frame.size.height - configuration.menuHeight)
-        contentEndScroll()
-    }
-}
-
-
-// MARK: - 数据源
-extension TLPageView : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
+        
+        pageViewController.view.frame = CGRect(x: 0, y: configuration.menuHeight, width: self.frame.size.width, height: self.frame.size.height - configuration.menuHeight)
+        moveTo(index: 0, animated: false)
     }
     
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return childControllers?.count ?? 0
+    public override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        let vc = viewController()
+        vc.addChildViewController(pageViewController)
+        pageViewController.didMove(toParentViewController: vc)
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let ipStr = String(format: "(%d,%d)", indexPath.section, indexPath.row)
-        var id = ""
-        if let identifier  = cellIdentifierDic[ipStr] {
-            id = identifier
-        } else {
-            let identifier = String(format: "TLCollectionViewCell%a", ipStr)
-            cellIdentifierDic[ipStr] = identifier
-            // 注册 Cell
-            collectionView.register(UINib(nibName: String(describing: TLCollectionViewCell.self), bundle: Bundle(for: TLPageView.self)), forCellWithReuseIdentifier: identifier)
-            id = identifier
-        }
-        
-        
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as! TLCollectionViewCell
-        for subview in cell.contentView.subviews {
-            subview.removeFromSuperview()
-        }
-        
-        if let childVC = childControllers?[indexPath.item] {
-            childVC.view.frame = cell.contentView.bounds
-            cell.contentView.addSubview(childVC.view)
-        }
-        
-        return cell
-    }
-}
-
-
-// MARK: - UIScrollViewDelegate
-extension TLPageView : UIScrollViewDelegate {
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        contentEndScroll()
-        scrollView.isScrollEnabled = true
-    }
     
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate {
-            contentEndScroll()
-        } else {
-            scrollView.isScrollEnabled = false
-        }
+    func viewController() -> UIViewController {
+        var nextRes : UIResponder?
+        nextRes = next
+        
+        repeat {
+            if let vc = nextRes as? UIViewController {
+                return vc
+            } else {
+                nextRes = nextRes?.next
+            }
+        } while nextRes != nil
+        
+        return UIViewController()
     }
-    
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        startOffsetX = scrollView.contentOffset.x
-    }
-    
-    private func contentEndScroll() {
-        // 获取滚动到的位置
-        let currentIndex = Int(collectionView.contentOffset.x / collectionView.frame.size.width)
-        // 通知titleView进行调整
-        tlPageViewDelegate?.pageView(self, targetIndex: currentIndex)
-    }
-
 }
 
 // MARK: - 遵守 TLMenuViewDelegate
 extension TLPageView: TLMenuViewDelegate {
     func menuView(_ menuView: TLMenuView, targetIndex: Int) {
-        currentIndex = targetIndex
-        //滚动到对应的 index
-        let indexPath = IndexPath(item: targetIndex, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+        
+        moveTo(index: targetIndex, animated: true)
     }
 }
