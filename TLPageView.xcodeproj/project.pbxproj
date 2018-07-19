@@ -10,8 +10,6 @@
 		9E7C2A832100625D0076C645 /* TLPageView+PageViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7C2A822100625D0076C645 /* TLPageView+PageViewControllerDataSource.swift */; };
 		9EA04E3320F7989100FEA1C7 /* TLPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA04E2B20F7989100FEA1C7 /* TLPageView.swift */; };
 		9EA04E3420F7989100FEA1C7 /* TLMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA04E2C20F7989100FEA1C7 /* TLMenuView.swift */; };
-		9EA04E3520F7989100FEA1C7 /* TLCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EA04E2D20F7989100FEA1C7 /* TLCollectionViewCell.xib */; };
-		9EA04E3620F7989100FEA1C7 /* TLCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA04E2E20F7989100FEA1C7 /* TLCollectionViewCell.swift */; };
 		9EA04E3720F7989100FEA1C7 /* TLMenuLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA04E2F20F7989100FEA1C7 /* TLMenuLabel.swift */; };
 		9EA04E3820F7989100FEA1C7 /* TLPageViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA04E3020F7989100FEA1C7 /* TLPageViewConfiguration.swift */; };
 		9EA04E3A20F7989100FEA1C7 /* TLPageViewOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA04E3220F7989100FEA1C7 /* TLPageViewOption.swift */; };
@@ -55,8 +53,6 @@
 		9EA04E2920F7983D00FEA1C7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9EA04E2B20F7989100FEA1C7 /* TLPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPageView.swift; sourceTree = "<group>"; };
 		9EA04E2C20F7989100FEA1C7 /* TLMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLMenuView.swift; sourceTree = "<group>"; };
-		9EA04E2D20F7989100FEA1C7 /* TLCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLCollectionViewCell.xib; sourceTree = "<group>"; };
-		9EA04E2E20F7989100FEA1C7 /* TLCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLCollectionViewCell.swift; sourceTree = "<group>"; };
 		9EA04E2F20F7989100FEA1C7 /* TLMenuLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLMenuLabel.swift; sourceTree = "<group>"; };
 		9EA04E3020F7989100FEA1C7 /* TLPageViewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPageViewConfiguration.swift; sourceTree = "<group>"; };
 		9EA04E3220F7989100FEA1C7 /* TLPageViewOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPageViewOption.swift; sourceTree = "<group>"; };
@@ -110,8 +106,6 @@
 		9EA04E2820F7982700FEA1C7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9EA04E2E20F7989100FEA1C7 /* TLCollectionViewCell.swift */,
-				9EA04E2D20F7989100FEA1C7 /* TLCollectionViewCell.xib */,
 				9EA04E2F20F7989100FEA1C7 /* TLMenuLabel.swift */,
 				9EA04E2C20F7989100FEA1C7 /* TLMenuView.swift */,
 				9EA04E2B20F7989100FEA1C7 /* TLPageView.swift */,
@@ -230,7 +224,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9EA04E3520F7989100FEA1C7 /* TLCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,7 +247,6 @@
 				9E7C2A832100625D0076C645 /* TLPageView+PageViewControllerDataSource.swift in Sources */,
 				9EA04E3320F7989100FEA1C7 /* TLPageView.swift in Sources */,
 				9EA04E3720F7989100FEA1C7 /* TLMenuLabel.swift in Sources */,
-				9EA04E3620F7989100FEA1C7 /* TLCollectionViewCell.swift in Sources */,
 				9EA04E3820F7989100FEA1C7 /* TLPageViewConfiguration.swift in Sources */,
 				9EA04E3A20F7989100FEA1C7 /* TLPageViewOption.swift in Sources */,
 				9EA04E3420F7989100FEA1C7 /* TLMenuView.swift in Sources */,
