@@ -155,6 +155,12 @@ extension TLPageView {
                 configuration.leftItem = value
             case let .rightItem(value):
                 configuration.rightItem = value
+            case let .separatorLineColor(value):
+                configuration.separatorLineColor = value
+            case let .separatorLineHeight(value):
+                configuration.separatorLineHeight = value
+            case let .menuBackgroundColor(value):
+                configuration.menuBackgroundColor = value
             }
         }
     }

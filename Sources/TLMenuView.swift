@@ -131,11 +131,13 @@ class TLMenuView: UIView {
 // MARK: - 布局 && 配置
 extension TLMenuView {
     private func setupUI() {
+        backgroundColor = configuration.menuBackgroundColor
         addSubview(scrollView)
         addSubview(bottomSeparatorLine)
         // 添加滚动指示条
         scrollView.addSubview(bottomLine)
         bottomLine.backgroundColor = configuration.menuBottomLineColor
+        bottomSeparatorLine.backgroundColor = configuration.separatorLineColor
     }
     
     /// 将titleLabel添加到UIScrollView中
@@ -198,7 +200,7 @@ extension TLMenuView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        bottomLine.frame = CGRect(x: 0, y: self.frame.size.height - configuration.menuBottmonLineHeight, width: 0, height: configuration.menuBottmonLineHeight)
+        bottomLine.frame = CGRect(x: 0, y: self.frame.size.height - configuration.menuBottmonLineHeight - configuration.separatorLineHeight, width: 0, height: configuration.menuBottmonLineHeight)
         
         var leftWidth : CGFloat = 0
         if let left = leftItem {
@@ -219,6 +221,8 @@ extension TLMenuView {
         }
         
         scrollView.frame = CGRect(x: leftWidth, y: 0, width: self.frame.size.width - leftWidth - rightWidth, height: self.frame.size.height)
+        
+        bottomSeparatorLine.frame = CGRect(x: 0, y: configuration.menuHeight - configuration.separatorLineHeight, width: self.frame.size.width, height: configuration.separatorLineHeight)
         setupTitleLabelsFrame()
     }
 }

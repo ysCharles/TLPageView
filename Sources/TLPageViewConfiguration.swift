@@ -22,5 +22,10 @@ public class TLPageViewConfiguration {
     
     open var leftItem :UIView? = nil
     open var rightItem : UIView? = nil
+    
+    
+    open var separatorLineColor : UIColor = UIColor(red: 245 / 255.0, green: 245 / 255.0, blue: 245 / 255.0, alpha: 1)
+    open var separatorLineHeight : CGFloat = 1
+    open var menuBackgroundColor: UIColor = .white
     public init() { }
 }
