@@ -19,7 +19,16 @@ public class TLPageView: UIView {
     var configuration  = TLPageViewConfiguration()
     
     // MARK: - 属性
-    var currentIndex: Int = 0
+    var currentIndex: Int = 0 {
+        didSet {
+            if currentIndex < 0 {
+                currentIndex = 0
+            }
+            if currentIndex > childControllers.count - 1 {
+                currentIndex = 0
+            }
+        }
+    }
     var pengdingViewController : UIViewController?
     
     var titles: [String] = []
@@ -110,6 +119,7 @@ extension TLPageView {
         pengdingViewController = childControllers[index]
         pageViewController.setViewControllers([pengdingViewController!], direction: direction, animated: animated, completion: nil)
         currentIndex = index
+        tlPageViewDelegate?.pageView(self, targetIndex: currentIndex)
     }
 }
 
@@ -154,7 +164,7 @@ extension TLPageView {
         menuView.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: configuration.menuHeight)
         
         pageViewController.view.frame = CGRect(x: 0, y: configuration.menuHeight, width: self.frame.size.width, height: self.frame.size.height - configuration.menuHeight)
-        moveTo(index: 0, animated: false)
+        moveTo(index: currentIndex, animated: false)
     }
     
     public override func didMoveToSuperview() {

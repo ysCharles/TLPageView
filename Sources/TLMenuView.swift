@@ -176,13 +176,18 @@ extension TLMenuView {
             
             if i == 0 {
                 x = configuration.menuItemMargin * 0.5
+            } else {
+                let preLabel = titleLabels[i - 1]
+                x = preLabel.frame.maxX + configuration.menuItemMargin
+            }
+            
+            if i == currentIndex {
                 var lineFrame = bottomLine.frame
                 lineFrame.origin.x = x + 5
                 lineFrame.size.width = w
                 bottomLine.frame = lineFrame
-            } else {
-                let preLabel = titleLabels[i - 1]
-                x = preLabel.frame.maxX + configuration.menuItemMargin
+                label.currentScale = 1.03
+                label.textColor = configuration.menuItemSelectedColor
             }
             
             label.frame = CGRect(x: x, y: y, width: w + 10, height: h)

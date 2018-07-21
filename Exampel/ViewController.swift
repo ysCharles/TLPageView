@@ -34,20 +34,30 @@ class ViewController: UIViewController {
             
         }
         
-        pageView = TLPageView(viewControllers: controllers, pageViewOptions: [.menuHeight(50),.menuItemMargin(5), .rightItem(rightItem)])
+        pageView = TLPageView(viewControllers: controllers, pageViewOptions: [.menuHeight(50),
+                                                                              .menuItemMargin(5),
+                                                                              .menuItemFont(UIFont.systemFont(ofSize: 15)),
+                                                                              .menuItemColor(UIColor(red: 146 / 255.0, green: 146 / 255.0, blue: 146 / 255.0, alpha: 1.0)),
+                                                                              .menuItemSelectedColor(UIColor(red: 33 / 255.0, green: 33 / 255.0, blue: 33 / 255.0, alpha: 1.0)),
+                                                                              .rightItem(rightItem)])
+//        pageView.currentIndex = 1
         view.addSubview(pageView)
         pageView.frame = CGRect(x: 0, y: 88, width: view.frame.size.width, height: view.frame.size.height - 88)
+        
+        pageView.moveTo(index: 1, animated: false)
+        
     }
     
     
 
     @objc private func btnClick() {
-        print("More button clicked")
-        let vc = DemoController()
-        vc.title = "替换"
-        vc.view.backgroundColor = .black
-        
-        pageView.replace(viewController: vc, at: 1)
+//        print("More button clicked")
+//        let vc = DemoController()
+//        vc.title = "替换"
+//        vc.view.backgroundColor = .black
+//
+//        pageView.replace(viewController: vc, at: 1)
+        pageView.moveTo(index: 2, animated: true)
     }
 
 
