@@ -75,6 +75,11 @@ public enum TLPageViewOption {
     
     case leftItem(UIView)
     case rightItem(UIView)
+    
+    case separatorLineColor(UIColor)
+    case separatorLineHeight(CGFloat)
+    
+    case menuBackgroundColor(UIColor)
 }
 ```
 
