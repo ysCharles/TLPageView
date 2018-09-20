@@ -1,0 +1,5 @@
+language: Swift
+osx_image: xcode10
+xcode_project: TLPageView.xcodeproj
+script: xcodebuild -project TLPageView.xcodeproj -scheme "TLPageView" -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X,OS=latest'
+
