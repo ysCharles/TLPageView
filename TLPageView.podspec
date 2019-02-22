@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "TLPageView"
-  s.version      = "0.4"
+  s.version      = "0.5"
   s.summary      = "PageView, 带左右定制 item"
 
   s.homepage     = "https://github.com/ysCharles/TLPageView"
