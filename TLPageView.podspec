@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "TLPageView"
-  s.version      = "0.5"
+  s.version      = "0.6"
   s.summary      = "PageView, 带左右定制 item"
 
   s.homepage     = "https://github.com/ysCharles/TLPageView"
@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
 
   s.author             = { "Charles" => "ystanglei@gmail.com" }
 
-  s.platform     = :ios, "9.0"
+  s.platform     = :ios, "8.0"
 
 
   s.source       = { :git => "https://github.com/ysCharles/TLPageView.git", :tag => "#{s.version}" }
