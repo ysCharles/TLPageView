@@ -45,7 +45,7 @@ public class TLPageView: UIView {
     }()
     
     private lazy var pageViewController : UIPageViewController = {
-        let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey : 2])
+        let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewController.OptionsKey.interPageSpacing : 2])
         pageVC.dataSource = self
         pageVC.delegate = self
         return pageVC
@@ -115,7 +115,7 @@ extension TLPageView {
             return
         }
         
-        let direction :UIPageViewControllerNavigationDirection =  index > currentIndex ? .forward : .reverse
+        let direction :UIPageViewController.NavigationDirection =  index > currentIndex ? .forward : .reverse
         pengdingViewController = childControllers[index]
         pageViewController.setViewControllers([pengdingViewController!], direction: direction, animated: animated, completion: nil)
         currentIndex = index
@@ -177,8 +177,8 @@ extension TLPageView {
         super.didMoveToSuperview()
         
         let vc = viewController()
-        vc.addChildViewController(pageViewController)
-        pageViewController.didMove(toParentViewController: vc)
+        vc.addChild(pageViewController)
+        pageViewController.didMove(toParent: vc)
     }
     
     

@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "TLPageView"
-  s.version      = "0.6"
+  s.version      = "0.7"
   s.summary      = "PageView, 带左右定制 item"
 
   s.homepage     = "https://github.com/ysCharles/TLPageView"
@@ -38,6 +38,6 @@ Pod::Spec.new do |s|
   # s.resources = "Sources/**/*.xib"
 
   s.frameworks = "UIKit"
-  s.swift_version = '4.1'
+  s.swift_version = '4.2'
 
 end
