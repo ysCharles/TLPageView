@@ -38,7 +38,8 @@ class ViewController: UIViewController {
                                                                               .menuItemMargin(5),
                                                                               .menuItemFont(UIFont.systemFont(ofSize: 15)),
                                                                               .menuItemColor(UIColor(red: 146 / 255.0, green: 146 / 255.0, blue: 146 / 255.0, alpha: 1.0)),
-                                                                              .menuItemSelectedColor(UIColor(red: 33 / 255.0, green: 33 / 255.0, blue: 33 / 255.0, alpha: 1.0)),
+                                                                              .menuItemSelectedColor(.black),
+                                                                              .menuBottomLineColor(.blue),
                                                                               .rightItem(rightItem)])
 //        pageView.currentIndex = 1
         view.addSubview(pageView)
