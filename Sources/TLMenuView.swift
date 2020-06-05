@@ -80,7 +80,7 @@ class TLMenuView: UIView {
         sourceLabel.currentScale = 1.03
         
         var bottomLineFrame = self.bottomLine.frame
-        bottomLineFrame.size.width = sourceLabel.frame.size.width - 10
+        bottomLineFrame.size.width = configuration.menuBottomLineWidth ?? (sourceLabel.frame.size.width - 10)
         self.bottomLine.frame = bottomLineFrame
         
         var ct = self.bottomLine.center
@@ -185,9 +185,12 @@ extension TLMenuView {
             
             if i == currentIndex {
                 var lineFrame = bottomLine.frame
-                lineFrame.origin.x = x + 5
-                lineFrame.size.width = w
+                var center = bottomLine.center
+                center.x = label.center.x
+//                lineFrame.origin.x = x + 5
+                lineFrame.size.width = configuration.menuBottomLineWidth ?? w
                 bottomLine.frame = lineFrame
+                bottomLine.center = center
                 label.currentScale = 1.03
                 label.textColor = configuration.menuItemSelectedColor
             }
@@ -200,7 +203,7 @@ extension TLMenuView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        bottomLine.frame = CGRect(x: 0, y: self.frame.size.height - configuration.menuBottmonLineHeight - configuration.separatorLineHeight, width: 0, height: configuration.menuBottmonLineHeight)
+        bottomLine.frame = CGRect(x: 0, y: self.frame.size.height - configuration.menuBottomLineHeight - configuration.separatorLineHeight, width: 0, height: configuration.menuBottomLineHeight)
         
         var leftWidth : CGFloat = 0
         if let left = leftItem {
@@ -239,7 +242,7 @@ extension TLMenuView {
         // 调整bottomLine
         UIView.animate(withDuration: 0.25, animations: {
             var bottomLineFrame = self.bottomLine.frame
-            bottomLineFrame.size.width = targetLabel.frame.size.width - 10
+            bottomLineFrame.size.width = self.configuration.menuBottomLineWidth ?? (targetLabel.frame.size.width - 10)
             self.bottomLine.frame = bottomLineFrame
             
             var ct = self.bottomLine.center
@@ -275,7 +278,7 @@ extension TLMenuView {
         // 调整bottomLine
         UIView.animate(withDuration: 0.25, animations: {
             var bottomLineFrame = self.bottomLine.frame
-            bottomLineFrame.size.width = targetLabel.frame.size.width - 10
+            bottomLineFrame.size.width = self.configuration.menuBottomLineWidth ?? (targetLabel.frame.size.width - 10)
             self.bottomLine.frame = bottomLineFrame
             
             var ct = self.bottomLine.center

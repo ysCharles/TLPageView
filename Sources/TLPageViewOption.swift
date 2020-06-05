@@ -11,7 +11,8 @@ import UIKit
 public enum TLPageViewOption {
     case menuHeight(CGFloat)
     
-    case menuBottmonLineHeight(CGFloat)
+    case menuBottomLineWidth(CGFloat)
+    case menuBottomLineHeight(CGFloat)
     case menuBottomLineColor(UIColor)
     
     case menuItemFont(UIFont)

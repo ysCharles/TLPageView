@@ -141,8 +141,8 @@ extension TLPageView {
                 configuration.menuHeight = value
             case let .menuItemFont(value):
                 configuration.menuItemFont = value
-            case let .menuBottmonLineHeight(value):
-                configuration.menuBottmonLineHeight = value
+            case let .menuBottomLineHeight(value):
+                configuration.menuBottomLineHeight = value
             case let .menuBottomLineColor(value):
                 configuration.menuBottomLineColor = value
             case let .menuItemColor(value):
@@ -161,6 +161,8 @@ extension TLPageView {
                 configuration.separatorLineHeight = value
             case let .menuBackgroundColor(value):
                 configuration.menuBackgroundColor = value
+            case let .menuBottomLineWidth(value):
+                configuration.menuBottomLineWidth = value
             }
         }
     }

@@ -17,7 +17,8 @@ public class TLPageViewConfiguration {
     open var menuItemSelectedColor : UIColor = .red
     open var menuItemMargin : CGFloat = 5.0
     
-    open var menuBottmonLineHeight : CGFloat = 2
+    open var menuBottomLineWidth: CGFloat? = nil
+    open var menuBottomLineHeight : CGFloat = 2
     open var menuBottomLineColor : UIColor = .red
     
     open var leftItem :UIView? = nil
@@ -28,4 +29,9 @@ public class TLPageViewConfiguration {
     open var separatorLineHeight : CGFloat = 1
     open var menuBackgroundColor: UIColor = .white
     public init() { }
+}
+
+public enum TLPageMenuAlignment : Int {
+    case left = 1
+    case spaceArround = 2
 }
