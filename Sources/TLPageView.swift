@@ -163,6 +163,8 @@ extension TLPageView {
                 configuration.menuBackgroundColor = value
             case let .menuBottomLineWidth(value):
                 configuration.menuBottomLineWidth = value
+            case let .menuAlignment(value):
+                configuration.menuAlignment = value
             }
         }
     }

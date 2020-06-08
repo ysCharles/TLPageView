@@ -12,7 +12,7 @@ import TLPageView
 class ViewController: UIViewController {
     var pageView : TLPageView!
     var colors : [UIColor] = [UIColor.yellow,UIColor.red,UIColor.brown,UIColor.blue]
-    var titles : [String] = ["不仅仅是喜欢", "歌在飞", "小情歌", "回忆总想哭", "遥远的歌", "双节棍", "叶子", "天空中最亮的星", "稻香", "花桥流水"]
+    var titles : [String] = ["不仅仅", "歌在飞", "小情歌"]
     lazy var rightItem: UIButton = {
         let btn = UIButton(type: .custom)
         btn.frame = CGRect(x: 0, y: 0, width: 30, height: 44)
@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         var controllers = [UIViewController]()
-        for i in 0..<10{
+        for i in 0..<titles.count{
             let controller = DemoController()
             controller.title = titles[i]//"测试中哈哈哈\(i)"
             controller.view.backgroundColor = colors[i % 4]
@@ -34,18 +34,25 @@ class ViewController: UIViewController {
             
         }
         
+        let label = UILabel()
+        label.textAlignment = .left
+        
         pageView = TLPageView(viewControllers: controllers, pageViewOptions: [.menuHeight(50),
                                                                               .menuItemMargin(5),
                                                                               .menuItemFont(UIFont.systemFont(ofSize: 15)),
                                                                               .menuItemColor(UIColor(red: 146 / 255.0, green: 146 / 255.0, blue: 146 / 255.0, alpha: 1.0)),
                                                                               .menuItemSelectedColor(.black),
                                                                               .menuBottomLineColor(.blue),
-                                                                              .rightItem(rightItem)])
+//                                                                              .menuBottomLineWidth(15),
+                                                                              .menuBottomLineHeight(3),
+                                                                              .menuAlignment(TLPageViewConfiguration.MenuAlignment.spaceArround),
+//                                                                              .rightItem(rightItem)
+                                                                            ])
 //        pageView.currentIndex = 1
         view.addSubview(pageView)
         pageView.frame = CGRect(x: 0, y: 88, width: view.frame.size.width, height: view.frame.size.height - 88)
         
-        pageView.moveTo(index: 1, animated: false)
+//        pageView.moveTo(index: 1, animated: false)
         
     }
     

@@ -30,6 +30,9 @@ class TLMenuView: UIView {
     
     /// 标题数组
     private lazy var titleLabels = [TLMenuLabel]()
+    /// 计算标题的宽度 并保存
+    private var titleWidths: [CGFloat] = []
+    
     /// 滚动视图
     private lazy var scrollView : UIScrollView = {
         let scrollView = UIScrollView()
@@ -146,6 +149,7 @@ extension TLMenuView {
             label.removeFromSuperview()
         }
         titleLabels.removeAll()
+        titleWidths.removeAll()
         
         if let ts = titles {
             for (index, title) in ts.enumerated() {
@@ -159,6 +163,10 @@ extension TLMenuView {
                 scrollView.addSubview(titleLabel)
                 titleLabels.append(titleLabel)
                 
+                // 计算标题宽度 并保存
+                let width = (title as NSString).boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 0), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : configuration.menuItemFont], context: nil).width + 10
+                titleWidths.append(width)
+                
                 let tapGes = UITapGestureRecognizer(target: self, action: #selector(titleLabelClick(_:)))
                 titleLabel.addGestureRecognizer(tapGes)
                 titleLabel.isUserInteractionEnabled = true
@@ -167,14 +175,18 @@ extension TLMenuView {
     }
     
     private func setupTitleLabelsFrame() {
+        
+        if titleLabels.count < 1 {
+            return
+        }
+        
         for (i, label) in titleLabels.enumerated() {
             var w : CGFloat = 0
             let h : CGFloat = configuration.menuHeight
             var x : CGFloat = 0
             let y : CGFloat = 0
             
-            let title = titles![i]
-            w = (title as NSString).boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 0), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font : configuration.menuItemFont], context: nil).width
+            w = titleWidths[i]
             
             if i == 0 {
                 x = configuration.menuItemMargin * 0.5
@@ -195,7 +207,7 @@ extension TLMenuView {
                 label.textColor = configuration.menuItemSelectedColor
             }
             
-            label.frame = CGRect(x: x, y: y, width: w + 10, height: h)
+            label.frame = CGRect(x: x, y: y, width: w, height: h)
         }
         scrollView.contentSize = CGSize(width: titleLabels.last!.frame.maxX + configuration.menuItemMargin * 0.5, height: 0)
     }
@@ -224,6 +236,16 @@ extension TLMenuView {
         }
         
         scrollView.frame = CGRect(x: leftWidth, y: 0, width: self.frame.size.width - leftWidth - rightWidth, height: self.frame.size.height)
+        
+        if configuration.menuAlignment == .spaceArround {
+            let contentWidth = titleWidths.reduce(0, +)
+            let totalWidth = contentWidth + configuration.menuItemMargin * CGFloat(titleLabels.count)
+
+            //  如果内容宽度 + 分割宽度 的总宽度  小于scrollview的宽度   重新设置分割宽度
+            if totalWidth < scrollView.frame.width, abs(totalWidth - scrollView.frame.width) > 5 {
+                configuration.menuItemMargin = (scrollView.frame.width - contentWidth) / CGFloat(titleLabels.count)
+            }
+        }
         
         bottomSeparatorLine.frame = CGRect(x: 0, y: configuration.menuHeight - configuration.separatorLineHeight, width: self.frame.size.width, height: configuration.separatorLineHeight)
         setupTitleLabelsFrame()

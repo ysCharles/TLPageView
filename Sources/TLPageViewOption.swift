@@ -20,6 +20,8 @@ public enum TLPageViewOption {
     case menuItemSelectedColor(UIColor)
     case menuItemMargin(CGFloat)
     
+    case menuAlignment(TLPageViewConfiguration.MenuAlignment)
+    
     case leftItem(UIView)
     case rightItem(UIView)
     
