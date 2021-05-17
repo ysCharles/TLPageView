@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol TLPageViewDelegate: class {
+public protocol TLPageViewDelegate: class {
     func pageView(_ pageView: TLPageView, targetIndex: Int)
 }
 
 public class TLPageView: UIView {
-    weak var tlPageViewDelegate: TLPageViewDelegate?
+    weak public var tlPageViewDelegate: TLPageViewDelegate?
     
     // MARK: - Configuration
     var configuration  = TLPageViewConfiguration()
